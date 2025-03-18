@@ -1,0 +1,36 @@
+#@ https://github.com/xerc
+#! https://forge.typo3.org/issues/97765
+--- cms-fluid-styled-content/Configuration/TypoScript/constants.bak	2022-07-15 17:35:51.979487034 +0200
++++ cms-fluid-styled-content/Configuration/TypoScript/constants.typoscript	2022-07-15 17:36:19.010488442 +0200
+@@ -21,9 +21,12 @@
+     image.lazyLoading = lazy
+
+     # cat=content/cImage/a1; type=options[sync,async,auto,]; label=Default settings for an image decoding hint to the browser: Can be "sync" (synchronously for atomic presentation with other content), "async" (asynchronously to avoid delaying presentation of other content), "auto" (no preference in decoding mode) or an empty value to omit the usage of the decoding attribute (same as "auto")
+-    image.imageDecoding =
++    image.imageDecoding = async
++
++    # cat=content/cImage/a2; type=options[high,low,auto,]; label=Default settings for an image fetchPriority hint to the browser: Can be "high" (prioritize; as long as the browser's heuristics don't prevent), "low" (deprioritize; if it's browser heuristics permit), "auto" (no preference in prioritizing) or an empty value to omit the usage of the fetchPriority attribute
++    image.fetchPriority = low
+
+-  textmedia {
++    textmedia {
+         # cat=content/cTextmedia/b1; type=int+; label= Max Image/Media Width: This indicates that maximum number of pixels (width) a block of media elements inserted as content is allowed to consume
+         maxW = 600
+         # cat=content/cTextmedia/b2; type=int+; label= Max Image/Media Width (Text): Same as above, but this is the maximum width when text is wrapped around an block of media elements. Default is 50% of the normal Max Media Item Width
+--- cms-fluid-styled-content/Configuration/TypoScript/Helper/ContentElement.bak	2022-07-12 11:04:24.000000000 +0200
++++ cms-fluid-styled-content/Configuration/TypoScript/Helper/ContentElement.typoscript	2022-07-15 17:14:39.171420734 +0200
+@@ -20,6 +20,7 @@
+         media {
+             lazyLoading = {$styles.content.image.lazyLoading}
+             imageDecoding = {$styles.content.image.imageDecoding}
++            fetchPriority = {$styles.content.image.fetchPriority}
+             popup {
+                 bodyTag = <body style="margin:0; background:#fff;">
+                 wrap = <a href="javascript:close();"> | </a>
+--- cms-fluid-styled-content/Resources/Private/Partials/Media/Rendering/Image.bak	2022-07-12 11:04:24.000000000 +0200
++++ cms-fluid-styled-content/Resources/Private/Partials/Media/Rendering/Image.html	2022-07-15 17:14:39.233420738 +0200
+@@ -1,3 +1,3 @@
+ <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+-<f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}" alt="{file.alternative}" title="{file.title}" loading="{settings.media.lazyLoading}" decoding="{settings.media.imageDecoding}" />
++<f:media class="image-embed-item" file="{file}" width="{dimensions.width}" height="{dimensions.height}" alt="{file.alternative}" title="{file.title}" loading="{settings.media.lazyLoading}" fetchPriority="{settings.media.fetchPriority}" decoding="{settings.media.imageDecoding}" />
+ </html>

@@ -1,0 +1,44 @@
+{
+  "name": "typo3patch/cms-fluid-styled-content",
+  "type": "metapackage",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://typo3patch.github.io",
+  "support": {
+    "issues": "https://github.com/typo3patch/cms-fluid-styled-content/issues",
+    "source": "https://github.com/typo3patch/cms-fluid-styled-content"
+  },
+  "authors": [
+    {
+      "role": "Developer",
+      "name": "Marcus Förster",
+      "homepage": "https://github.com/xerc"
+    }
+  ],
+  "require": {
+    "typo3patch/cms-fluid": "^11.5 || ^12.4 || ^13.4",
+    "cweagans/composer-patches": "*"
+  },
+  "require-dev": {
+    "symplify/vendor-patches": "*"
+  },
+  "extra": {
+    "patches": {
+      "typo3/cms-fluid-styled-content": {
+        "[ADD] fetchpriority": "https://raw.githubusercontent.com/typo3patch/cms-fluid-styled-content/refs/heads/11.5.x/patches/add-fetchPriority.patch"
+      }
+    }
+  },
+  "repositories": {
+    "t3p-fluid": {
+      "type": "git",
+      "url": "https://github.com/typo3patch/cms-fluid"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "cweagans/composer-patches": true,
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    }
+  }
+}
